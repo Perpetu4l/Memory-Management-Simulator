@@ -5,6 +5,7 @@
 
 using namespace std;
 
+
 bool BuddyAllocator::is_power_of_two(int x) {
     return x && !(x & (x - 1));
 }
@@ -19,6 +20,7 @@ int BuddyAllocator::size_to_order(int size) {
     return order;
 }
 
+
 BuddyAllocator::BuddyAllocator(int memory_size, int min_block_size) {
     if (!is_power_of_two(memory_size) || !is_power_of_two(min_block_size)) {
         throw runtime_error("Sizes must be power of two");
@@ -32,7 +34,6 @@ BuddyAllocator::BuddyAllocator(int memory_size, int min_block_size) {
     free_list[max_order].push_back(0); 
 }
 
-
 int BuddyAllocator::buddy_malloc(int size) {
     int req_order = size_to_order(size);
     if (req_order < min_order)
@@ -44,7 +45,7 @@ int BuddyAllocator::buddy_malloc(int size) {
         cur_order++;
 
     if (cur_order > max_order)
-        return -1; 
+        return -1;
 
     int addr = free_list[cur_order].front();
     free_list[cur_order].pop_front();
@@ -56,18 +57,18 @@ int BuddyAllocator::buddy_malloc(int size) {
     }
 
     allocated_order[addr] = req_order;
-    used_memory += (1 << req_order);   // ✅ TRACK USAGE
+    used_memory += (1 << req_order); 
 
     return addr;
 }
 
-/* ---------- FREE ---------- */
+
 void BuddyAllocator::buddy_free(int addr) {
     if (allocated_order.find(addr) == allocated_order.end())
         return;
 
     int order = allocated_order[addr];
-    used_memory -= (1 << order);        // ✅ UPDATE USAGE
+    used_memory -= (1 << order);     
     allocated_order.erase(addr);
 
     while (order < max_order) {
@@ -88,9 +89,11 @@ void BuddyAllocator::buddy_free(int addr) {
     free_list[order].push_back(addr);
 }
 
+
 int BuddyAllocator::get_used_memory() const {
     return used_memory;
 }
+
 
 void BuddyAllocator::dump_free_lists() {
     cout << "---- Buddy Free Lists ----\n";

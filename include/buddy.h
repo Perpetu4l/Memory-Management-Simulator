@@ -14,9 +14,8 @@ private:
     int max_order;
 
     int used_memory = 0; 
-
-    vector<list<int>> free_list;             
-    unordered_map<int, int> allocated_order;   
+    vector<list<int>> free_list;               
+    unordered_map<int, int> allocated_order;  
 
     int size_to_order(int size);
     bool is_power_of_two(int x);
