@@ -4,6 +4,7 @@
 #include "../include/memory.h"
 #include "../include/buddy.h"
 #include "../include/cache.h"
+#include "../include/vm.h"
 
 using namespace std;
 
@@ -132,23 +133,32 @@ int main() {
             buddy->dump_free_lists();
         }
 
-        else if (cmd == "stats") {
-            cout << "Internal Fragmentation: "
-                 << internal_fragmentation() << "\n";
+       else if (cmd == "stats") {
 
-            cout << "External Fragmentation: "
-                 << external_fragmentation() << "\n";
-
-            cout << "Memory Utilization: "
-                 << memory_utilization() << "%\n";
-
+            cout << "----- Memory -----\n";
+            cout << "Internal Fragmentation: " << internal_fragmentation() << "\n";
+            cout << "External Fragmentation: " << external_fragmentation() << "\n";
+            cout << "Memory Utilization: " << memory_utilization() << "%\n";
             allocation_stats();
-        }
 
-        else if (cmd == "cache_stats") {
+            cout << "\n----- Virtual Memory -----\n";
+            int hits = get_page_hits();
+            int faults = get_page_faults();
+            int total = hits + faults;
+
+            cout << "Page Hits: " << hits << "\n";
+            cout << "Page Faults: " << faults << "\n";
+
+            if (total > 0)
+                cout << "Fault Rate: " << (faults * 100.0 / total) << "%\n";
+            else
+                cout << "Fault Rate: 0%\n";
+
+            cout << "\n----- Cache -----\n";
             L1->print_stats("L1");
             L2->print_stats("L2");
         }
+
 
         else if (cmd == "compare") {
             compare_strategies();
@@ -158,6 +168,31 @@ int main() {
             workload.clear();
             cout << "Workload cleared\n";
         }
+
+
+        else if (cmd == "vm_init") {
+            int vsize, psize, page;
+            cin >> vsize >> psize >> page;
+
+            init_vm(vsize, psize, page);
+        }
+        
+        else if (cmd == "vm_access") {
+            int vaddr;
+            cin >> vaddr;
+
+            int paddr = vm_access(vaddr);
+            cout << "Physical address = " << paddr << "\n";
+
+            if (paddr != -1)
+                cache_access(paddr);
+        }
+
+        else if (cmd == "vm_table") {
+            dump_page_table();
+        }
+
+
 
         else if (cmd == "exit") {
             break;

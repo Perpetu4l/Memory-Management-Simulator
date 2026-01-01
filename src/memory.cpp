@@ -8,6 +8,7 @@ int total_alloc_requests = 0;
 int successful_allocs = 0;
 int failed_allocs = 0;
 int total_memory_size = 0;
+int next_block_id = 1;
 
 
 list<Block> memory_blocks;

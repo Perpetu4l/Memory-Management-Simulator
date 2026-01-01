@@ -14,6 +14,7 @@ struct Block {
     int start;
     int size;
     bool free;
+    int id;
 };
 
 
