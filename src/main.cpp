@@ -14,5 +14,10 @@ int main() {
         } else if (cmd == "dump") {
             dump_memory();
         } else if (cmd == "exit") break;
+        else if (cmd == "alloc") {
+        int size; cin >> size;
+        cout << malloc_first_fit(size) << endl;
+    }
+
     }
 }
