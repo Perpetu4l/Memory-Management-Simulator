@@ -5,17 +5,27 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <unordered_map>
+
 
 using namespace std;
 extern int total_memory_size;
+
+
+extern int next_block_id;
+extern unordered_map<int,int> buddy_ids;  
+
 
 
 struct Block {
     int start;
     int size;
     bool free;
-    int id;
+    int id;   
 };
+
+int get_block_id(int start_address);
+int get_block_start_by_id(int id);
 
 
 extern list<Block> memory_blocks;
