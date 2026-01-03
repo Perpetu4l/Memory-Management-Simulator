@@ -116,6 +116,14 @@ Repeat the above command with other test files as needed.
 
 ---
 
+## Demo Video
+
+
+https://github.com/user-attachments/assets/33a4c798-d4b9-4929-9a67-8d73b0383502
+
+
+---
+
 ## Simulation Scope and Technical Notes
 
 This project is designed as an **educational memory management simulator**, implemented entirely in user space.  
