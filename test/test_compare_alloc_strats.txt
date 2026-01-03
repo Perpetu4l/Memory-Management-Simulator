@@ -1,0 +1,11 @@
+init 256 16
+64 16 4
+128 16 4
+alloc ff 25
+alloc ff 25
+dump
+free 1 
+alloc ff 30
+alloc ff 211
+compare
+exit

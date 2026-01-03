@@ -1,0 +1,12 @@
+init 256 16
+64 16 4
+128 16 4
+alloc buddy 25
+alloc buddy 25
+dump
+free 1 
+alloc buddy 30
+alloc buddy 211
+dump
+stats
+exit
