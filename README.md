@@ -13,6 +13,32 @@ correctness, design clarity, and faithful simulation of OS-level abstractions
 such as allocation strategies, page tables, cache hierarchies, and replacement
 policies.
 
+## Project Structure
+
+- `src/`  
+  - `memory.cpp` – Linear memory allocation (FF/BF/WF) and fragmentation logic
+  - `buddy.cpp` – Buddy system allocator implementation
+  - `cache.cpp` – Multilevel cache simulation (L1, L2)
+  - `vm.cpp` – Virtual memory and paging subsystem
+  - `main.cpp` – Command-line interface and subsystem integration
+
+- `include/`  
+  Header files:
+  - `memory.h`
+  - `buddy.h`
+  - `cache.h`
+  - `vm.h`
+
+- `tests/`  
+  Input workloads used to validate different simulator features:
+  - Linear allocation tests
+  - Buddy allocator tests
+  - Cache access tests
+  - Virtual memory access tests
+  - Allocation strategy comparison tests
+
+- `memsim`  
+  Compiled simulator executable generated after build
 
 ---
 
@@ -87,3 +113,81 @@ memsim.exe < tests/test_linear_alloc.txt
 ```
 
 Repeat the above command with other test files as needed.
+
+---
+
+## Simulation Scope and Technical Notes
+
+This project is designed as an **educational memory management simulator**, implemented entirely in user space.  
+It aims to model the **core mechanisms and control flow** of memory management systems, rather than enforcing all correctness and protection guarantees expected from a real operating system kernel.
+
+The following points describe the scope, assumptions, and intentional simplifications of the simulator.
+
+### Memory Allocation vs Virtual Memory
+
+The simulator treats **heap allocation** (First Fit, Best Fit, Worst Fit, Buddy) and **virtual memory paging** as logically separate subsystems.
+
+- Heap allocation manages a simulated contiguous physical memory region and tracks block ownership and fragmentation.
+- Virtual memory operates independently through per-process page tables and frame allocation.
+
+As a result, virtual memory accesses do **not** verify whether a given address was previously allocated via the heap allocator.  
+This design choice avoids tightly coupling heap metadata with page table logic and allows the simulator to focus on address translation behavior.
+
+---
+
+### Address Translation Behavior
+
+Virtual memory follows a paging-based translation model:
+Virtual Address → Page Table Lookup → Physical Address → Cache → Main Memory
+
+
+When a virtual page is accessed:
+- If the page is already mapped, the access is treated as a page hit.
+- If the page is unmapped, the access triggers a page fault and a physical frame is assigned automatically.
+
+Invalid memory accesses therefore do **not** raise segmentation faults, unlike real operating systems.  
+All valid virtual pages within a process’s declared virtual address space are eligible for demand paging.
+
+---
+
+### Page Replacement and Frame Management
+
+- Physical memory is divided into fixed-size frames derived from the configured page size.
+- Page replacement is implemented using a **timestamp-based least-recently-used (LRU) policy**.
+- On eviction, the victim page is invalidated in its owning process’s page table before the frame is reused.
+
+The simulator tracks page hits, page faults, and per-process frame usage for observability and analysis.
+
+---
+
+### Cache and Timing Model
+
+The cache hierarchy is simulated independently of allocation and paging logic.
+
+- L1 and L2 caches are modeled as set-associative caches with FIFO replacement.
+- Cache behavior is driven purely by physical addresses produced after page translation.
+- Memory access latency is represented using fixed symbolic penalties for:
+  - L1 cache access
+  - L2 cache access
+  - Main memory access
+  - Disk access on page faults
+
+These penalties are **illustrative**, not hardware-accurate, and exist to highlight relative performance effects.
+
+---
+
+### Omitted Hardware-Level Features
+
+To maintain clarity and modularity, the simulator does not model:
+- CPU instruction execution or pipelines
+- Hardware privilege levels
+- Read/Write/Execute permission bits
+- TLBs or interrupt handling
+- True concurrency or preemption
+
+These omissions are intentional and keep the simulator focused on **memory management algorithms and data structures**, rather than full OS behavior.
+
+---
+
+Overall, the simulator prioritizes **algorithmic transparency, correctness of control flow, and measurable behavior** over low-level fidelity.  
+All simplifications are deliberate and documented to ensure the system remains predictable, explainable, and suitable for academic exploration.
