@@ -18,13 +18,12 @@ Virtual Addr → Page Table → Physical Addr → Cache → Main Memor
 ## 2. Allocation Strategies (First_fit, Best_Fit, Worst_Fit)
 
 A free‑list tracks blocks inside a simulated heap.Free contiguous memmory are grouped together as required.If no block present of >= required size allocation is failed
-┌──────────────────────────────────────────────────┐
+
 | Strategy   | Description                         | 
 |------------|-------------------------------------|
 | First Fit  | first block large enough            |
 | Best Fit   | smallest block that fits            |
 | Worst Fit  | largest available block             |
-└──────────────────────────────────────────────────┘
 
 
 
