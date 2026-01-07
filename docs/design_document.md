@@ -45,14 +45,14 @@ Fragmentation and utilization statistics are present in comparision table.
 
 
 ## 3. Buddy System Design
-Memory is divided into **power‑of‑two** sized blocks.Free contiguous memmory are grouped together as required.If no block present of >= required size allocation is failed
+Memory is divided into **power‑of‑two** sized blocks. Free contiguous memory is grouped together as required. If no block present of >= required size, allocation fails
 
 
 **Algorithm**
 
-1. round request to nearest power‑of‑two  
-2. split larger blocks recursively  
-3. on free, merge buddies whenever both are free  
+1. round request to the nearest power‑of‑two  
+2. Split larger blocks recursively  
+3. On 'free', merge buddies whenever both are free  
 
  fast split/merge, zero external fragmentation  
  possible internal fragmentation
@@ -107,7 +107,7 @@ Paging maps virtual pages to physical frames.
 1. compute page number + offset  
 2. page‑table lookup  
 3. if missing → page fault  
-4. allocate a frame and install mapping  
+4. allocate a frame and install the mapping  
 
 Page replacement uses **LRU**.  
 We track page hits, faults, and per‑process frame usage.
@@ -209,12 +209,12 @@ This mode does not change allocator behavior — it only **evaluates** it.
 - cache hit/miss patterns  
 - strategy comparison  
 
-Outputs go to `output/`, while combined results goes in all_tests_output.txt.
+Outputs go to `output/`, while combined results go in all_tests_output.txt.
+I manually verified the outputs of test cases, and they are valid.
 
-
-Screenshots and the demo video and output files  explained the correctness of test cases.
+Screenshots and the demo video, and output files explained the correctness of test cases.
 
 ---
 
 ## 10. Conclusion
-I implemented the memory management simulator including buddy systems ,linear allocation,cache ,virtual memory . I added the test cases and their results i verified all of them were correct showing correct implementation .
+I implemented the memory management simulator, including buddy systems, linear allocation, cache, and virtual memory. I added the test cases and their results. I verified all of them were correct showing correct implementation.
