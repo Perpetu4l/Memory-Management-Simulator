@@ -13,6 +13,7 @@ page tables map virtual pages to physical frames.
 
 Virtual Addr → Page Table → Physical Addr → Cache → Main Memory
 
+
 ---
 
 ## 2. Allocation Strategies (First_fit, Best_Fit, Worst_Fit)
@@ -43,6 +44,7 @@ Fragmentation and utilization statistics are present in comparision table.
 </tr>
 </table>
 
+---
 
 ## 3. Buddy System Design
 Memory is divided into **power‑of‑two** sized blocks. Free contiguous memory is grouped together as required. If no block present of >= required size, allocation fails
@@ -64,6 +66,7 @@ Memory is divided into **power‑of‑two** sized blocks. Free contiguous memory
 
 
 ---
+
 
 ## 4. Cache Hierarchy & Replacement
 Two‑level cache model:
@@ -97,6 +100,7 @@ Spatial locality appears naturally because entire blocks are fetched per access.
   </td>
 </tr>
 </table>
+
 ---
 
 ## 5. Virtual Memory Model
@@ -124,6 +128,7 @@ We track page hits, faults, and per‑process frame usage.
   </td>
 </tr>
 </table>
+
 ---
 
 ## 6. Address Translation Flow
@@ -168,7 +173,7 @@ We track page hits, faults, and per‑process frame usage.
 
 
 
-
+---
 
 ## 7. Compare Mode (Allocation Strategy Comparison)
 
