@@ -28,7 +28,6 @@ The simulator includes:
   - `buddy.h`
   - `cache.h`
   - `vm.h`
-* `docs/` – design + test explanations
 * `tests/`  
   Input workloads used to validate different simulator features:
   - Linear allocation tests
@@ -111,7 +110,8 @@ run_tests.bat
 
 ## Demo Video
 A terminal-based demonstration of the simulator is available in the root directory : Demo_video.mp4 
-[ a lower quality preview: ]
+
+a lower-quality preview:
 
 https://github.com/user-attachments/assets/57cdd566-d8d8-4a45-9ebf-aad480cdc05c
 
