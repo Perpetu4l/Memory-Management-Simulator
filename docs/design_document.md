@@ -26,6 +26,9 @@ A free‑list tracks blocks inside a simulated heap.Free contiguous memmory are 
 | Worst Fit  | largest available block             |
 └──────────────────────────────────────────────────┘
 
+
+
+
 Fragmentation and utilization statistics are present in comparision table.
 <table>
 <tr>
