@@ -92,6 +92,7 @@ Windows
 run_tests.bat
 ```
  This executes all test workloads and stores the combined results in all_tests_output.txt, while generating separate log files for each test case in the output directory.
+ 
 ---
 
  ## Features Implemented 
@@ -109,7 +110,11 @@ run_tests.bat
 ---
 
 ## Demo Video
-A terminal-based demonstration of the simulator is available here:
+A terminal-based demonstration of the simulator is available in the root directory : Demo_video.mp4 
+[ a lower quality preview: ]
+
+https://github.com/user-attachments/assets/57cdd566-d8d8-4a45-9ebf-aad480cdc05c
+
 
 ---
 ## Assumptions and Design Choices
