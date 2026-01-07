@@ -279,7 +279,7 @@ int main() {
             if (alloc_mode == LINEAR) {
                 cout << "Allocator Type: Linear (FF/BF/WF)\n";
 
-                int internal = internal_fragmentation();   // currently 0
+                int internal = internal_fragmentation();  
                 int external = external_fragmentation();
 
                 int total = total_memory_size;

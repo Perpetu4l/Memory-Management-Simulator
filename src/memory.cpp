@@ -309,7 +309,7 @@ static Result replay(const string &type) {
 static Result replay_buddy() {
     BuddyAllocator buddy_test(total_memory_size, 128);
 
-    unordered_map<int, int> alloc_req; // addr -> requested size
+    unordered_map<int, int> alloc_req;
     int total_allocs = 0;
     int successful = 0;
     int internal_frag = 0;
@@ -327,7 +327,7 @@ static Result replay_buddy() {
 
                 internal_frag += (alloc_size - e.value);
             }
-        } else { // FREE_EVENT
+        } else {
             int addr = e.value;
 
             if (alloc_req.count(addr)) {
@@ -362,32 +362,32 @@ void compare_strategies() {
     Result bf = replay("bf");
     Result wf = replay("wf");
     Result buddy = replay_buddy();
-cout << setfill(' ');      // reset padding to spaces
-cout << fixed << setprecision(2);
+    cout << setfill(' ');     
+    cout << fixed << setprecision(2);
 
-
-cout << left
-     << setw(10) << "Strategy"
-     << setw(12) << "IntFrag"
-     << setw(12) << "ExtFrag"
-     << setw(14) << "Utilization"
-     << setw(14) << "SuccessRate"
-     << "\n";
-
-auto print_row = [&](const string& name, const Result& r) {
-    ostringstream util, succ;
-    util << fixed << setprecision(2) << r.util << "%";
-    succ << fixed << setprecision(2) << r.success << "%";
 
     cout << left
-     << setw(10) << name
-     << setw(12) << r.int_frag
-     << setw(12) << r.ext_frag
-     << setw(14) << ( (ostringstream() << fixed << setprecision(2) << r.util << "%" ).str() )
-     << setw(14) << ( (ostringstream() << fixed << setprecision(2) << r.success << "%" ).str() )
-     << "\n";
+        << setw(10) << "Strategy"
+        << setw(12) << "IntFrag"
+        << setw(12) << "ExtFrag"
+        << setw(14) << "Utilization"
+        << setw(14) << "SuccessRate"
+        << "\n";
 
-};
+    auto print_row = [&](const string& name, const Result& r) {
+        ostringstream util, succ;
+        util << fixed << setprecision(2) << r.util << "%";
+        succ << fixed << setprecision(2) << r.success << "%";
+
+        cout << left
+        << setw(10) << name
+        << setw(12) << r.int_frag
+        << setw(12) << r.ext_frag
+        << setw(14) << ( (ostringstream() << fixed << setprecision(2) << r.util << "%" ).str() )
+        << setw(14) << ( (ostringstream() << fixed << setprecision(2) << r.success << "%" ).str() )
+        << "\n";
+
+    };
 
 
 

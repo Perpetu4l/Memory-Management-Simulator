@@ -1,201 +1,125 @@
-# Memory-Management-Simulator
+# Memory Management Simulator
 
-## Overview
-This project implements a **Memory Management Simulator** that models how an
-operating system manages memory. It simulates:
-- Different memory allocation strategies (First Fit, Best Fit, Worst Fit, Buddy allocation)
-- Multi-level CPU cache hierarchy (L1 and L2)
-- Virtual memory using paging
-- Page faults, cache hits/misses, and fragmentation statistics
+This project is a **terminal-based Memory Management Simulator** that demonstrates how core operating-system memory mechanisms work at a conceptual and algorithmic level.
 
-The simulator is not a real OS kernel. Instead, it focuses on algorithmic
-correctness, design clarity, and faithful simulation of OS-level abstractions
-such as allocation strategies, page tables, cache hierarchies, and replacement
-policies.
+The simulator is built for **learning and analysis**, not kernel-level execution.  
 
-## Project Structure
+The simulator includes:
 
-- `src/`  
+- Linear memory allocation (First Fit, Best Fit, Worst Fit)
+- Buddy system allocation (power-of-two blocks)
+- Two-level CPU cache hierarchy (L1 and L2)
+- Virtual memory using paging and demand loading
+- Page faults and page replacement
+- Runtime statistics and allocator comparison
+
+---
+
+##  Project Structure
+* `src/`  
+  - `main.cpp` – Command-line interface and subsystem integration
   - `memory.cpp` – Linear memory allocation (FF/BF/WF) and fragmentation logic
   - `buddy.cpp` – Buddy system allocator implementation
   - `cache.cpp` – Multilevel cache simulation (L1, L2)
   - `vm.cpp` – Virtual memory and paging subsystem
-  - `main.cpp` – Command-line interface and subsystem integration
-
-- `include/`  
+* `include/`  
   Header files:
   - `memory.h`
   - `buddy.h`
   - `cache.h`
   - `vm.h`
-
-- `tests/`  
+* `docs/` – design + test explanations
+* `tests/`  
   Input workloads used to validate different simulator features:
   - Linear allocation tests
   - Buddy allocator tests
   - Cache access tests
   - Virtual memory access tests
   - Allocation strategy comparison tests
-
-- `memsim`  
-  Compiled simulator executable generated after build
+* `Makefile`
+* `output/` – generated logs (created when tests run)
+* `docs/` –  design document 
+* `run_tests.sh` – Linux/Mac automated test runner
+* `run_tests.bat`– Windows automated test runner
 
 ---
 
-## Features implemented
-### 1. Dynamic Memory Allocation Strategies
-- First Fit, Best Fit, and Worst Fit allocation strategies.
-- Buddy System allocator for power-of-two memory management.
-- Dynamic allocation and deallocation with block splitting and coalescing.
-- Tracking: Internal & external fragmentation, Memory utilization, Allocation success rate.
-### 2. Multilevel Cache Simulation
-- Configurable L1 and L2 caches with parameters - cache size, block size, associativity (direct-mapped or set-associative).
-- FIFO replacement policy.
-- Tracking: Cache hits and misses, Access penalties based on disk penalty, Total memory access cycles.
-### 3. Virtual Memory
-- Per-process page tables.
-- Paging-based address translation maps virtual pages to physical frames.
-- Page fault handling.
-- LRU page replacement.
-- Frame usage tracking per process.
-### 4. Statistics & Comparison
-- Detailed runtime statistics
-- Compare allocation strategies on the same workload
-- reports the following metrics :
-    - Allocation success and failure count.
-    - Memory utilization percentage, Internal fragmentation, External fragmentation.
-    - Per-process physical frame usage, Page hits, page faults, and fault rate.
-    - Cache hits and misses per cache level (L1, L2).
-    - Total memory access cycles and penalty accumulation.
----
-## Build and Run
+##  How to Build and Run
 
-### Prerequisites
-Ensure the following tools are installed on your system:
-
-- A C++ compiler with **C++17** support  
-  - Linux: `g++`
-  - macOS: `clang++` (via Xcode Command Line Tools)
-  - Windows: `g++` via MinGW or WSL
+### Requirements
+- C++17 compiler (g++ / clang++)
 - `make`
 
-### Building the Simulator
-
-Navigate to the root directory of the project (the directory containing the `Makefile`) and run:
-
+### Build
+Run the following command in the root directory:
 ```bash
 make
 ```
-
-### Running the Simulator
-
-Start the interactive memory management simulator using:
-On linux/macos terminal:
+### Run the simulator
+Linux / Mac
 ```bash
 ./memsim
 ```
-On windows command prompt:
+
+Windows
 ```powershell
 memsim.exe
 ```
+Type commands directly in the terminal.
 
-### Running Test Workloads
-The `tests/` directory contains predefined input workloads.
-Test files can be executed by redirecting them into the simulator. For example:
+* Type help to see all the functions avaiable after running the simulator.
 
-On linux/macos terminal:
+---
+## Running the tests
+### Manually
+Linux / Mac
 ```bash
-./memsim < tests/test_linear_alloc.txt
+./memsim < test/example.txt
 ```
-On windows command prompt:
-```powershell
-memsim.exe < tests/test_linear_alloc.txt
+Windows
+```bash
+memsim.exe < test\example.txt
 ```
+output will be in terminal
+### Automated 
+Linux / Mac
+```bash
+chmod +x run_tests.sh
+./run_tests.sh
+```
+Windows
+```bash
+run_tests.bat
+```
+ This executes all test workloads and stores the combined results in all_tests_output.txt, while generating separate log files for each test case in the output directory.
+---
 
-Repeat the above command with other test files as needed.
-
+ ## Features Implemented 
+1. **Heap Memory Management**: First Fit, Best Fit, Worst Fit, and Buddy System.
+2. **Fragmentation Analysis**: Tracks internal and external fragmentation, memory utilization, and allocation success/failure rates for different allocators.
+3. **Virtual Memory System**: Implements paging-based virtual memory with per-process page tables that map virtual pages to physical frames. Page size and physical memory are user-configurable.
+4. **Demand Paging and Page Fault Handling**: Pages are loaded into physical memory only when accessed, with page faults handled transparently by the simulator.
+5. **Page Replacement Policy**: Uses a timestamp-based LRU policy for virtual memory page replacement to model realistic eviction behavior.
+6. **Multilevel Cache Hierarchy**: Simulates a two-level CPU cache system:
+   - L1 Cache  
+   - L2 Cache  
+   Cache size, block size, and associativity are configurable. Cache replacement uses FIFO.
+7. **Allocator Strategy Comparison**: Provides a comparison mode that replays identical workloads across different allocation strategies and reports fragmentation, utilization, and allocation efficiency.
+8. **Runtime Statistics and Observability**: Shows detailed statistics through dump and stats commands, including page hits and faults, frame usage, cache hits and misses, and overall memory performance metrics.
 ---
 
 ## Demo Video
-
-
-https://github.com/user-attachments/assets/33a4c798-d4b9-4929-9a67-8d73b0383502
-
+A terminal-based demonstration of the simulator is available here:
 
 ---
+## Assumptions and Design Choices
+- Heap allocation and virtual memory are modeled as separate subsystems with no shared validation.
+- Memory protection features such as read/write/execute permissions are not simulated.
+- Pages are loaded on demand: accessing an unmapped page results in a page fault and automatic mapping (no segmentation faults).
+- CPU execution is abstracted; the simulator focuses on address translation and memory flow only.
+- Replacement policies are simplified: LRU for virtual memory pages and FIFO for cache blocks.
 
-## Simulation Scope and Technical Notes
-
-This project is designed as an **educational memory management simulator**, implemented entirely in user space.  
-It aims to model the **core mechanisms and control flow** of memory management systems, rather than enforcing all correctness and protection guarantees expected from a real operating system kernel.
-
-The following points describe the scope, assumptions, and intentional simplifications of the simulator.
-
-### Memory Allocation vs Virtual Memory
-
-The simulator treats **heap allocation** (First Fit, Best Fit, Worst Fit, Buddy) and **virtual memory paging** as logically separate subsystems.
-
-- Heap allocation manages a simulated contiguous physical memory region and tracks block ownership and fragmentation.
-- Virtual memory operates independently through per-process page tables and frame allocation.
-
-As a result, virtual memory accesses do **not** verify whether a given address was previously allocated via the heap allocator.  
-This design choice avoids tightly coupling heap metadata with page table logic and allows the simulator to focus on address translation behavior.
-
----
-
-### Address Translation Behavior
-
-Virtual memory follows a paging-based translation model:
-Virtual Address → Page Table Lookup → Physical Address → Cache → Main Memory
-
-
-When a virtual page is accessed:
-- If the page is already mapped, the access is treated as a page hit.
-- If the page is unmapped, the access triggers a page fault and a physical frame is assigned automatically.
-
-Invalid memory accesses therefore do **not** raise segmentation faults, unlike real operating systems.  
-All valid virtual pages within a process’s declared virtual address space are eligible for demand paging.
-
----
-
-### Page Replacement and Frame Management
-
-- Physical memory is divided into fixed-size frames derived from the configured page size.
-- Page replacement is implemented using a **timestamp-based least-recently-used (LRU) policy**.
-- On eviction, the victim page is invalidated in its owning process’s page table before the frame is reused.
-
-The simulator tracks page hits, page faults, and per-process frame usage for observability and analysis.
-
----
-
-### Cache and Timing Model
-
-The cache hierarchy is simulated independently of allocation and paging logic.
-
-- L1 and L2 caches are modeled as set-associative caches with FIFO replacement.
-- Cache behavior is driven purely by physical addresses produced after page translation.
-- Memory access latency is represented using fixed symbolic penalties for:
-  - L1 cache access
-  - L2 cache access
-  - Main memory access
-  - Disk access on page faults
-
-These penalties are **illustrative**, not hardware-accurate, and exist to highlight relative performance effects.
-
----
-
-### Omitted Hardware-Level Features
-
-To maintain clarity and modularity, the simulator does not model:
-- CPU instruction execution or pipelines
-- Hardware privilege levels
-- Read/Write/Execute permission bits
-- TLBs or interrupt handling
-- True concurrency or preemption
-
-These omissions are intentional and keep the simulator focused on **memory management algorithms and data structures**, rather than full OS behavior.
-
----
-
-Overall, the simulator prioritizes **algorithmic transparency, correctness of control flow, and measurable behavior** over low-level fidelity.  
-All simplifications are deliberate and documented to ensure the system remains predictable, explainable, and suitable for academic exploration.
+### Notes:
+- All test scenarios can be reproduced using the provided test inputs.
+- Logs are not tracked in version control.
+- Output files are generated dynamically when test workloads are executed.
