@@ -11,13 +11,13 @@ page tables map virtual pages to physical frames.
 - demand‑paging: pages are created on first access (page fault)  
 
 
-Virtual Addr → Page Table → Physical Addr → Cache → Main Memor
+Virtual Addr → Page Table → Physical Addr → Cache → Main Memory
 
 ---
 
 ## 2. Allocation Strategies (First_fit, Best_Fit, Worst_Fit)
 
-A free‑list tracks blocks inside a simulated heap.Free contiguous memmory are grouped together as required.If no block present of >= required size allocation is failed
+A free‑list tracks blocks inside a simulated heap. Free contiguous memory is grouped as required. If no block present of size >= required size, allocation fails
 
 | Strategy   | Description                         | 
 |------------|-------------------------------------|
