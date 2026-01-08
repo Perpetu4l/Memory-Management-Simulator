@@ -16,7 +16,7 @@ Virtual Addr → Page Table → Physical Addr → Cache → Main Memory
 
 ---
 
-## 2. Allocation Strategies (First_fit, Best_Fit, Worst_Fit)
+## 2. Linear allocation strategies (First_fit, Best_Fit, Worst_Fit)
 
 A free‑list tracks blocks inside a simulated heap. Free contiguous memory is grouped as required. If no block present of size >= required size, allocation fails
 
@@ -44,7 +44,7 @@ Fragmentation and utilization statistics are present in comparision table.
 
 ---
 
-## 3. Buddy System Design
+## 3. Buddy System Allocation strategies
 Memory is divided into **power‑of‑two** sized blocks. Free contiguous memory is grouped together as required. If no block present of >= required size, allocation fails
 
 
@@ -61,6 +61,23 @@ Memory is divided into **power‑of‑two** sized blocks. Free contiguous memory
   <img width="961" height="673" alt="Screenshot 2026-01-08 at 12 11 26 PM" src="https://github.com/user-attachments/assets/9ed02f90-df85-4fb8-b158-74a70c9d7695" />
 </p>
 
+---
+
+## 4. Compare Mode (Allocation Strategy Comparison)
+
+The simulator can replay the same workload under multiple strategies  
+(**FF, BF, WF, Buddy**) and report statistics 
+
+- allocation successes / failures  
+- memory utilization  
+- internal / external fragmentation  
+- total allocations and frees  
+
+This mode does not change allocator behavior — it only **evaluates** it.
+<p align="center">
+<img width="1028" height="713" alt="Screenshot 2026-01-08 at 12 41 24 PM" src="https://github.com/user-attachments/assets/fc44d423-1c4b-4f22-9edc-c8f37b7de9d2" />
+
+</p>
 
 
 ---
@@ -130,67 +147,86 @@ We track page hits, faults, and per‑process frame usage.
 
 ## 6. Address Translation Flow
 
-       ┌───────────────┐
-       │ Virtual Addr  │
-       └───────┬───────┘
-               ↓
-       ┌───────────────┐
-       │ Page | Offset │
-       └───────┬───────┘
-               ↓
-       ┌───────────────┐
-       │ Page Table    │
-       └───────┬───────┘
-        page present?
-        ┌──────┴──────┐
-       YES           NO
-        |            |
-        |      ┌───────────────┐
-        |      │ Page Fault    │
-        |      │ (allocate or  │
-        |      │  replace)     │ 
-        |      └───────┬──────-┘
-        |              ↓
-        └────────► Physical Frame 
-                      ↓
-              ┌───────────────┐
-              │ Cache Lookup  │
-              └───────┬───────┘
-                      │
-                    hit?
-            ┌─────────┴─────────┐
-           YES                 NO
-            │                   │
-    ┌───────────────┐   ┌───────────────┐
-    │   Return      │   │   Main Mem    │
-    │    (L1/L2)    │   │  (load data)  │
-    └───────┬───────┘   └───────┬───────┘
-            └──────────────► Data Returned
-
-
-
-
----
-
-## 7. Compare Mode (Allocation Strategy Comparison)
-
-The simulator can replay the same workload under multiple strategies  
-(**FF, BF, WF, Buddy**) and report statistics 
-
-- allocation successes / failures  
-- memory utilization  
-- internal / external fragmentation  
-- total allocations and frees  
-
-This mode does not change allocator behavior — it only **evaluates** it.
-<p align="center">
-<img width="1028" height="713" alt="Screenshot 2026-01-08 at 12 41 24 PM" src="https://github.com/user-attachments/assets/fc44d423-1c4b-4f22-9edc-c8f37b7de9d2" />
-
-</p>
+        ┌──────────────────┐
+        │ Virtual Address  │
+        └─────────┬────────┘
+                  ↓
+        ┌──────────────────┐
+        │ Split Address    │
+        │ (Page | Offset)  │
+        └─────────┬────────┘
+                  ↓
+        ┌──────────────────┐
+        │ Page Table Check │
+        └─────────┬────────┘
+             valid?
+          ┌────────┴────────┐
+         YES               NO
+          |                 |
+          |        ┌──────────────────┐
+          |        │ Page Fault Trap  │
+          |        │ (LRU Eviction /  │
+          |        │  Free Frame)     │
+          |        └─────────┬────────┘
+          |                  ↓
+          └──────────────► Physical Frame
+                              ↓
+                    ┌──────────────────┐
+                    │ Cache Hierarchy  │
+                    │ (L1 → L2)        │
+                    └─────────┬────────┘
+                         hit?
+                    ┌─────────┴─────────┐
+                   YES                 NO
+                    |                   |
+           ┌────────────────┐   ┌────────────────┐
+           │ Serve from     │   │ Access Main    │
+           │ Cache          │   │ Memory         │
+           └────────┬───────┘   └────────┬───────┘
+                    └──────────────► Data to CPU
 
 
 ---
 
+## 7. Project file structure
+
+.
+├── all_tests_output.txt          # Combined output from running all tests
+├── demo_video.mp4                # Terminal demo showing simulator features
+├── docs
+│   └── design_document.md        
+├── include
+│   ├── buddy.h                  
+│   ├── cache.h                 
+│   ├── memory.h                
+│   └── vm.h                     
+├── LICENSE                       
+├── Makefile                      # Build automation
+├── memsim                        # Compiled simulator executable
+├── output
+│   ├── buddy_log.txt             # Buddy allocator execution log
+│   ├── cache_log.txt             # Cache hit/miss log
+│   ├── compare_log.txt           # Allocation strategy comparison results
+│   ├── linear_log.txt            # Linear allocator execution log
+│   └── vm_log.txt                # Virtual memory & page fault log
+├── README.md                    
+├── run_tests.bat                 # Windows script to run all tests
+├── run_tests.sh                  # Linux/Mac script to run all tests
+├── src
+│   ├── buddy.cpp                 # Buddy allocator implementation
+│   ├── cache.cpp                 # Cache simulation implementation
+│   ├── main.cpp                  # Entry point & command dispatcher
+│   ├── memory.cpp                # Linear allocators implementation
+│   └── vm.cpp                    # Virtual memory & paging logic
+└── test
+    ├── test_buddy.txt             # Buddy allocator test workload
+    ├── test_cache_access.txt      # Cache access pattern test
+    ├── test_compare_alloc_strats.txt # FF vs BF vs WF vs Buddy comparison test
+    ├── test_linear_alloc.txt      # Linear allocator behavior test
+    └── test_vm_acces.txt          # Virtual memory & page fault test
+
+
+---
 
 ## 8. Limitations & Simplifications
 
