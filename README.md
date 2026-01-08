@@ -111,9 +111,7 @@ run_tests.bat
 ## Demo Video
 A terminal-based demonstration of the simulator is available in the root directory : demo_video.mp4 
 
-
-https://github.com/user-attachments/assets/4accbc65-d817-4e82-ba23-e52dd5226f8a
-
+https://drive.google.com/file/d/1h39m6R59cNV_-hzEbrbx2KJV14h0rUJ2/view?usp=sharing
 
 
 ---
