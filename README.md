@@ -54,6 +54,10 @@ Run the following command in the root directory:
 ```bash
 make
 ```
+If make doesn't work, then run :
+```bash
+g++ -std=c++17 -O2 -Wall src/main.cpp src/memory.cpp src/buddy.cpp src/cache.cpp src/vm.cpp -Iinclude -o memsim
+```
 ### Run the simulator
 Linux / Mac
 ```bash
