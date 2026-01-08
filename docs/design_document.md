@@ -33,13 +33,11 @@ Fragmentation and utilization statistics are present in comparision table.
 <table>
 <tr>
   <td>
-    <img src="images/linear alloc.png" width="95%"><br>
-    
+    <img width="638" height="720" alt="Screenshot 2026-01-08 at 12 09 21 PM" src="https://github.com/user-attachments/assets/813f5faf-7b9f-4066-95c5-d604967d3704" />
   </td>
 
   <td>
-    <img src="images/linear alloc1.png" width="95%"><br>
-    <img src="images/linear alloc2.png" width="95%">
+    <img width="551" height="572" alt="Screenshot 2026-01-08 at 12 10 03 PM" src="https://github.com/user-attachments/assets/2054211d-a04f-42f1-814d-0b3ed6a48498" />
   </td>
 </tr>
 </table>
@@ -60,7 +58,7 @@ Memory is divided into **power‑of‑two** sized blocks. Free contiguous memory
  possible internal fragmentation
 
 <p align="center">
-  <img src="images/buddy.png" width="43%" height="350">
+  <img width="961" height="673" alt="Screenshot 2026-01-08 at 12 11 26 PM" src="https://github.com/user-attachments/assets/9ed02f90-df85-4fb8-b158-74a70c9d7695" />
 </p>
 
 
@@ -90,13 +88,11 @@ Spatial locality appears naturally because entire blocks are fetched per access.
 <table>
 <tr>
   <td>
-    <img src="images/cache.png" width="95%"><br>
-    
+    <img width="837" height="877" alt="Screenshot 2026-01-08 at 12 23 11 PM" src="https://github.com/user-attachments/assets/42110455-d0d9-4b97-a159-fe94a61eee92" />
   </td>
 
   <td>
-    <img src="images/cache1.png" width="95%"><br>
-   
+  <img width="609" height="345" alt="Screenshot 2026-01-08 at 12 23 26 PM" src="https://github.com/user-attachments/assets/0e7f92fa-c2d0-4913-93bd-9be12b729caa" />
   </td>
 </tr>
 </table>
@@ -118,12 +114,13 @@ We track page hits, faults, and per‑process frame usage.
 <table>
 <tr>
   <td>
-    <img src="images/vm.png" width="95%"><br>
-    
+    <img width="834" height="995" alt="Screenshot 2026-01-08 at 12 36 10 PM" src="https://github.com/user-attachments/assets/cfbbdd4d-1143-46ed-bdd2-80cee3ce3749" />
+
   </td>
 
   <td>
-    <img src="images/vm1.png" width="95%"><br>
+   <img width="545" height="280" alt="Screenshot 2026-01-08 at 12 36 16 PM" src="https://github.com/user-attachments/assets/cdc89ca2-c583-4e59-a096-1a5b1ad0ea4a" />
+
     
   </td>
 </tr>
@@ -187,7 +184,8 @@ The simulator can replay the same workload under multiple strategies
 
 This mode does not change allocator behavior — it only **evaluates** it.
 <p align="center">
-  <img src="images/compare.png" width="60%">
+<img width="1028" height="713" alt="Screenshot 2026-01-08 at 12 41 24 PM" src="https://github.com/user-attachments/assets/fc44d423-1c4b-4f22-9edc-c8f37b7de9d2" />
+
 </p>
 
 
