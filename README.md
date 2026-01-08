@@ -100,16 +100,18 @@ run_tests.bat
 
  ## Features Implemented 
 1. **Heap Memory Management**: First Fit, Best Fit, Worst Fit, and Buddy System.
-2. **Fragmentation Analysis**: Tracks internal and external fragmentation, memory utilization, and allocation success/failure rates for different allocators.
-3. **Virtual Memory System**: Implements paging-based virtual memory with per-process page tables that map virtual pages to physical frames. Page size and physical memory are user-configurable.
-4. **Demand Paging and Page Fault Handling**: Pages are loaded into physical memory only when accessed, with page faults handled transparently by the simulator.
-5. **Page Replacement Policy**: Uses a timestamp-based LRU policy for virtual memory page replacement to model realistic eviction behavior.
+2. **Deallocation**: Safe deallocation of heap blocks and physical frames.
+3. **Virtual Memory System**: Paging-based virtual memory with user-configurable page size and per-process page tables.
+4. **Demand Paging and Page Fault Handling**: On-demand page loading with explicit page fault handling.
+5. **Replacement Policy**: LRU for virtual memory and FIFO for cache blocks.
 6. **Multilevel Cache Hierarchy**: Simulates a two-level CPU cache system:
    - L1 Cache  
    - L2 Cache  
    Cache size, block size, and associativity are configurable. Cache replacement uses FIFO.
-7. **Allocator Strategy Comparison**: Provides a comparison mode that replays identical workloads across different allocation strategies and reports fragmentation, utilization, and allocation efficiency.
-8. **Runtime Statistics and Observability**: Shows detailed statistics through dump and stats commands, including page hits and faults, frame usage, cache hits and misses, and overall memory performance metrics.
+7. **Allocator Strategy Comparison**:  Workload-based comparison of allocation strategies highlighting fragmentation and utilization.
+8. **Runtime Statistics**: Detailed runtime statistics reporting memory usage, allocation success, page faults, and cache hits/misses.
+
+
 ---
 
 ## Demo Video
