@@ -109,11 +109,11 @@ run_tests.bat
 ---
 
 ## Demo Video
-A terminal-based demonstration of the simulator is available in the root directory : Demo_video.mp4 
+A terminal-based demonstration of the simulator is available in the root directory : demo_video.mp4 
 
-a lower-quality preview:
 
-https://github.com/user-attachments/assets/57cdd566-d8d8-4a45-9ebf-aad480cdc05c
+https://github.com/user-attachments/assets/4accbc65-d817-4e82-ba23-e52dd5226f8a
+
 
 
 ---
